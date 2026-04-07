@@ -249,7 +249,7 @@ def main():
                 parser_pki.error("No subcommand specified")
         elif args.command == 'pxeboot':
             client.pxe_next_boot()
-            client.power_cycle()
+            client.power('reboot')
         elif args.command == 'storage':
             if args.subcommand == 'upload':
                 print(client.upload_file(args.src, args.dst, dict(args.header)))

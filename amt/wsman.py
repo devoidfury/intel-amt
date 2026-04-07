@@ -845,7 +845,7 @@ def change_boot_order_request(uri, boot_device):
    </n1:ChangeBootOrder_INPUT>
 </s:Body></s:Envelope>""")  # noqa
     xml.find('.//{http://schemas.xmlsoap.org/ws/2004/08/addressing}To').text = uri
-    xml.find('.//{http://schemas.dmtf.org/wbem/wsman/1/wsman.xsd}Selector').text = BOOT_DEVICES[boot_device]
+    xml.find('.//{http://schemas.dmtf.org/wbem/wscim/1/cim-schema/2/CIM_BootConfigSetting}Source//{http://schemas.dmtf.org/wbem/wsman/1/wsman.xsd}Selector').text = BOOT_DEVICES[boot_device]
     xml.find('.//{http://schemas.xmlsoap.org/ws/2004/08/addressing}MessageID').text = "uuid:" + str(uuid.uuid4())
     return ElementTree.tostring(xml)
 
