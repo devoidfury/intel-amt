@@ -382,14 +382,18 @@ class Client(object):
             return False
         payload = amt.wsman.enable_remote_kvm(self.path, self.vncpassword)
         self.post(payload)
-        payload = amt.wsman.kvm_redirect(self.path)
+        payload = amt.wsman.kvm_redirect(self.path, True)
         self.post(payload)
         return True
 
     def enable_kvm(self, nodelay=False):
         payload = amt.wsman.enable_remote_kvm(self.path, "", False, nodelay)
         self.post(payload)
-        payload = amt.wsman.kvm_redirect(self.path)
+        payload = amt.wsman.kvm_redirect(self.path, True)
+        return self.post(payload, CIM_KVMRedirectionSAP) == 0
+
+    def disable_kvm(self):
+        payload = amt.wsman.kvm_redirect(self.path, False)
         return self.post(payload, CIM_KVMRedirectionSAP) == 0
 
     def vnc_status(self):

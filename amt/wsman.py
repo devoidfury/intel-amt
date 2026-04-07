@@ -715,7 +715,7 @@ def enable_remote_kvm(uri, passwd, insecure=True, nodelay=False):
     return ElementTree.tostring(xml)
 
 
-def kvm_redirect(uri):
+def kvm_redirect(uri, enabled=True):
     xml = ElementTree.fromstring("""<?xml version="1.0" encoding="UTF-8"?>
 <s:Envelope xmlns:s="http://www.w3.org/2003/05/soap-envelope" xmlns:wsa="http://schemas.xmlsoap.org/ws/2004/08/addressing" xmlns:wsman="http://schemas.dmtf.org/wbem/wsman/1/wsman.xsd" xmlns:n1="http://schemas.dmtf.org/wbem/wscim/1/cim-schema/2/CIM_KVMRedirectionSAP">
 <s:Header>
@@ -729,11 +729,12 @@ def kvm_redirect(uri):
 </s:Header>
 <s:Body>
 <n1:RequestStateChange_INPUT>
-<n1:RequestedState>2</n1:RequestedState>
+<n1:RequestedState></n1:RequestedState>
 </n1:RequestStateChange_INPUT>
 </s:Body></s:Envelope>""")  # noqa
     xml.find('.//{http://schemas.xmlsoap.org/ws/2004/08/addressing}To').text = uri
     xml.find('.//{http://schemas.xmlsoap.org/ws/2004/08/addressing}MessageID').text = "uuid:" + str(uuid.uuid4())
+    xml.find('.//{http://schemas.dmtf.org/wbem/wscim/1/cim-schema/2/CIM_KVMRedirectionSAP}RequestedState').text = str(2 if enabled else 3)
     return ElementTree.tostring(xml)
 
 
